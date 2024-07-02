@@ -29,5 +29,19 @@ jobs:
       - name: Create MS SQL Database
         run: |
           apt update && apt install sudo
+
+          curl https://packages.microsoft.com/keys/microsoft.asc -o microsoft.asc && \
+          gpg --no-default-keyring --keyring ./msft-archive-keyring.gpg --import ./microsoft.asc && \
+          cp ./msft-archive-keyring.gpg /usr/share/keyrings/ && \
+          curl https://packages.microsoft.com/config/debian/12/prod.list | sudo tee /etc/apt/sources.list.d/mssql-release.list
+          sudo sed -i 's/signed-by=\/usr\/share\/keyrings\/microsoft-prod.gpg//' /etc/apt/sources.list.d/mssql-release.list
+          echo "deb [signed-by=/usr/share/keyrings/msft-archive-keyring.gpg] https://packages.microsoft.com/ubuntu/22.04/prod jammy main" > /etc/apt/sources.list.d/mssql-release.list
+          sudo apt-get update
+          sudo ACCEPT_EULA=Y apt-get install -y msodbcsql17
+          # optional: for bcp and sqlcmd
+          sudo ACCEPT_EULA=Y apt-get install -y mssql-tools
+          echo 'export PATH="$PATH:/opt/mssql-tools18/bin"' >> ~/.bashrc
+          bash ~/.bashrc
+          
           sudo apt-get update && sudo apt-get install -y mssql-tools
           /opt/mssql-tools/bin/sqlcmd -S localhost -U SA -P 'YourStrong!Passw0rd' -Q 'CREATE DATABASE test_db'
