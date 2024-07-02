@@ -61,6 +61,6 @@ jobs:
                 ,[FirstName]
                 ,[Address]
                 ,[City]
-            FROM [test_db].[dbo].[Persons]
+            FROM [dbo].[Persons]
           EOF
           /opt/mssql-tools/bin/sqlcmd -S localhost,1433 -U SA -P 'YourStrong!Passw0rd' -b -i test1.sql
