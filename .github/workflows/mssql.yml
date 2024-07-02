@@ -45,5 +45,5 @@ jobs:
           
           sudo apt-get update && sudo apt-get install -y mssql-tools
           /opt/mssql-tools/bin/sqlcmd -S localhost,1433 -U SA -P 'YourStrong!Passw0rd' -b -Q 'CREATE DATABASE test_db'
-          /opt/mssql-tools/bin/sqlcmd -S localhost,1433 -U SA -P 'YourStrong!Passw0rd' -b -Q "CREATE TABLE Persons"
-          /opt/mssql-tools/bin/sqlcmd -S localhost,1433 -U SA -P 'YourStrong!Passw0rd' -b -Q 'SELECT * Persons'
+          /opt/mssql-tools/bin/sqlcmd -S localhost,1433 -U SA -P 'YourStrong!Passw0rd' -b -Q "use test_db; CREATE TABLE Persons"
+          /opt/mssql-tools/bin/sqlcmd -S localhost,1433 -U SA -P 'YourStrong!Passw0rd' -b -Q 'use test_db; SELECT * Persons'
